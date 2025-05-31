@@ -1,0 +1,57 @@
+<view class="container">
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+  
+  <!-- 教练列表 -->
+  <view class="coaches-list" wx:elif="{{!isEmpty}}">
+    <view class="page-header">
+      <text class="page-title">我的教练</text>
+    </view>
+    
+    <view class="list">
+      <view 
+        class="list-item" 
+        wx:for="{{coaches}}" 
+        wx:key="id"
+        bindtap="onCoachDetail"
+        data-id="{{item.id}}"
+      >
+        <image class="avatar avatar-medium" src="{{item.avatar}}" mode="aspectFill"></image>
+        <view class="list-item-content">
+          <view class="list-item-title">{{item.nickname}}</view>
+          <view class="list-item-subtitle">
+            <text wx:if="{{item.specialty && item.specialty.length > 0}}">
+              {{item.specialty.join(' · ')}}
+            </text>
+            <text wx:else>专业教练</text>
+            <text wx:if="{{item.remark}}"> · {{item.remark}}</text>
+          </view>
+          <view class="coach-time" wx:if="{{item.availableTime && item.availableTime.length > 0}}">
+            <text class="time-label">可约时间：</text>
+            <text class="time-text">{{item.availableTime.join(' ')}} </text>
+          </view>
+        </view>
+        <view class="coach-actions">
+          <button 
+            class="btn btn-primary btn-small" 
+            bindtap="onBookCourse"
+            data-id="{{item.id}}"
+            catchtap="true"
+          >
+            约课
+          </button>
+        </view>
+        <view class="list-item-arrow"></view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <view class="empty-state-icon">💪</view>
+    <view class="empty-state-text">暂无教练</view>
+    <view class="empty-state-subtitle">等待教练邀请或联系教练建立关系</view>
+  </view>
+</view> 

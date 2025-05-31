@@ -1,0 +1,85 @@
+<view class="container">
+  <view class="page-title">添加学员</view>
+  
+  <view class="form-section">
+    <!-- 手机号输入 -->
+    <view class="input-group">
+      <view class="input-label">学员手机号</view>
+      <input 
+        class="input" 
+        type="number" 
+        placeholder="请输入学员手机号" 
+        value="{{phone}}" 
+        bindinput="onPhoneInput"
+        maxlength="11"
+      />
+    </view>
+
+    <!-- 课时数设置 -->
+    <view class="input-group">
+      <view class="input-label">课时数</view>
+      <view class="courses-counter">
+        <button 
+          class="counter-btn" 
+          bindtap="onCoursesChange"
+          data-type="minus"
+          disabled="{{coursesLeft <= 0}}"
+        >
+          -
+        </button>
+        <input 
+          class="counter-input" 
+          type="number" 
+          value="{{coursesLeft}}" 
+          bindinput="onCoursesInput"
+        />
+        <button 
+          class="counter-btn" 
+          bindtap="onCoursesChange"
+          data-type="add"
+        >
+          +
+        </button>
+      </view>
+    </view>
+
+    <!-- 备注输入 -->
+    <view class="input-group">
+      <view class="input-label">备注（可选）</view>
+      <textarea 
+        class="input textarea" 
+        placeholder="请输入备注信息，如学员特殊需求、注意事项等" 
+        value="{{remark}}" 
+        bindinput="onRemarkInput"
+        maxlength="200"
+      />
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-section">
+    <button 
+      class="btn btn-primary btn-block {{isSubmitting ? 'btn-disabled' : ''}}" 
+      bindtap="onSubmit"
+      loading="{{isSubmitting}}"
+    >
+      {{isSubmitting ? '添加中...' : '添加学员'}}
+    </button>
+  </view>
+
+  <!-- 说明文字 -->
+  <view class="tips-section">
+    <view class="tip-item">
+      <text class="tip-icon">💡</text>
+      <text class="tip-text">添加学员后，系统会发送邀请通知给对方</text>
+    </view>
+    <view class="tip-item">
+      <text class="tip-icon">⏰</text>
+      <text class="tip-text">学员确认邀请后，即可开始约课</text>
+    </view>
+    <view class="tip-item">
+      <text class="tip-icon">📝</text>
+      <text class="tip-text">课时数可以后续在学员详情页面调整</text>
+    </view>
+  </view>
+</view> 

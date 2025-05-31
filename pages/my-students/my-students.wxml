@@ -1,0 +1,57 @@
+<view class="container">
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+  
+  <!-- 学员列表 -->
+  <view class="students-list" wx:elif="{{!isEmpty}}">
+    <view class="page-header">
+      <text class="page-title">我的学员</text>
+      <button class="btn btn-primary btn-small" bindtap="onAddStudent">
+        添加学员
+      </button>
+    </view>
+    
+    <view class="list">
+      <view 
+        class="list-item" 
+        wx:for="{{students}}" 
+        wx:key="id"
+        bindtap="onStudentDetail"
+        data-id="{{item.id}}"
+      >
+        <image class="avatar avatar-medium" src="{{item.avatar}}" mode="aspectFill"></image>
+        <view class="list-item-content">
+          <view class="list-item-title">{{item.nickname}}</view>
+          <view class="list-item-subtitle">
+            <text wx:if="{{item.coursesLeft}}">剩余{{item.coursesLeft}}课时</text>
+            <text wx:else>无课时</text>
+            <text wx:if="{{item.remark}}"> · {{item.remark}}</text>
+          </view>
+        </view>
+        <view class="student-actions">
+          <button 
+            class="btn btn-outline btn-small" 
+            bindtap="onBookCourse"
+            data-id="{{item.id}}"
+            catchtap="true"
+          >
+            约课
+          </button>
+        </view>
+        <view class="list-item-arrow"></view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <view class="empty-state-icon">👥</view>
+    <view class="empty-state-text">暂无学员</view>
+    <view class="empty-state-subtitle">点击下方按钮添加学员</view>
+    <button class="btn btn-primary margin-top" bindtap="onAddStudent">
+      添加学员
+    </button>
+  </view>
+</view> 

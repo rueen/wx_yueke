@@ -1,0 +1,46 @@
+<view style="padding: 40rpx; background: #fff;">
+  <text style="font-size: 48rpx; color: #333;">约课小程序</text>
+</view>
+
+<view style="padding: 40rpx; margin: 40rpx; background: #f0f0f0;">
+  <text style="display: block; margin-bottom: 20rpx;">手机号:</text>
+  <input 
+    style="border: 1px solid #ccc; padding: 20rpx; width: 100%; box-sizing: border-box;"
+    placeholder="请输入手机号" 
+    value="{{phone}}" 
+    bindinput="onPhoneInput"
+  />
+</view>
+
+<view style="padding: 40rpx; margin: 40rpx; background: #f0f0f0;">
+  <text style="display: block; margin-bottom: 20rpx;">选择身份:</text>
+  <view style="display: flex; gap: 20rpx;">
+    <view 
+      style="flex: 1; padding: 20rpx; text-align: center; border: 1px solid #ccc; background: {{userType === 'student' ? '#007AFF' : '#fff'}}; color: {{userType === 'student' ? '#fff' : '#333'}};"
+      bindtap="onUserTypeChange"
+      data-type="student"
+    >
+      学员
+    </view>
+    <view 
+      style="flex: 1; padding: 20rpx; text-align: center; border: 1px solid #ccc; background: {{userType === 'coach' ? '#007AFF' : '#fff'}}; color: {{userType === 'coach' ? '#fff' : '#333'}};"
+      bindtap="onUserTypeChange"
+      data-type="coach"
+    >
+      教练
+    </view>
+  </view>
+</view>
+
+<view style="padding: 40rpx; margin: 40rpx;">
+  <button 
+    style="width: 100%; background: #007AFF; color: #fff; border: none; padding: 20rpx;"
+    bindtap="onLogin"
+  >
+    登录
+  </button>
+</view>
+
+<view style="padding: 40rpx; text-align: center;">
+  <text style="color: #666; font-size: 24rpx;">测试数据: phone={{phone}}, userType={{userType}}</text>
+</view> 

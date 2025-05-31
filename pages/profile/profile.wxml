@@ -1,0 +1,135 @@
+<view class="container">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <view class="user-info">
+      <image class="user-avatar" src="{{userInfo.avatar}}" mode="aspectFill"></image>
+      <view class="user-details">
+        <text class="user-name">{{userInfo.nickname}}</text>
+        <text class="user-phone">{{userInfo.phone}}</text>
+      </view>
+    </view>
+    
+    <!-- 身份切换 -->
+    <view class="user-type-switch">
+      <text class="switch-label">当前身份：</text>
+      <view class="switch-options">
+        <view 
+          class="switch-option {{userType === 'student' ? 'active' : ''}}"
+          bindtap="onSwitchUserType"
+          data-type="student"
+        >
+          学员
+        </view>
+        <view 
+          class="switch-option {{userType === 'coach' ? 'active' : ''}}"
+          bindtap="onSwitchUserType"
+          data-type="coach"
+        >
+          教练
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="function-list">
+    <!-- 关系管理 -->
+    <view class="function-section">
+      <view class="section-title">关系管理</view>
+      <view class="list">
+        <view class="list-item" bindtap="onViewRelated">
+          <view class="item-icon">👥</view>
+          <view class="list-item-content">
+            <view class="list-item-title">{{userType === 'coach' ? '我的学员' : '我的教练'}}</view>
+            <view class="list-item-subtitle">查看和管理关联关系</view>
+          </view>
+          <view class="list-item-arrow"></view>
+        </view>
+        
+        <view class="list-item" wx:if="{{userType === 'coach'}}" bindtap="onAddStudent">
+          <view class="item-icon">➕</view>
+          <view class="list-item-content">
+            <view class="list-item-title">添加学员</view>
+            <view class="list-item-subtitle">邀请新学员建立关系</view>
+          </view>
+          <view class="list-item-arrow"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 约课管理 -->
+    <view class="function-section">
+      <view class="section-title">约课管理</view>
+      <view class="list">
+        <view class="list-item" bindtap="onBookCourse">
+          <view class="item-icon">📅</view>
+          <view class="list-item-content">
+            <view class="list-item-title">发起约课</view>
+            <view class="list-item-subtitle">向{{userType === 'coach' ? '学员' : '教练'}}发起约课请求</view>
+          </view>
+          <view class="list-item-arrow"></view>
+        </view>
+        
+        <view class="list-item" bindtap="onViewSchedule">
+          <view class="item-icon">📋</view>
+          <view class="list-item-content">
+            <view class="list-item-title">我的课表</view>
+            <view class="list-item-subtitle">查看所有课程安排</view>
+          </view>
+          <view class="list-item-arrow"></view>
+        </view>
+        
+        <view class="list-item" bindtap="onViewRequests">
+          <view class="item-icon">🔔</view>
+          <view class="list-item-content">
+            <view class="list-item-title">待处理请求</view>
+            <view class="list-item-subtitle">处理约课邀请和通知</view>
+          </view>
+          <view class="badge" wx:if="{{pendingCount > 0}}">{{pendingCount}}</view>
+          <view class="list-item-arrow"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 个人设置 -->
+    <view class="function-section">
+      <view class="section-title">个人设置</view>
+      <view class="list">
+        <view class="list-item" bindtap="onEditProfile">
+          <view class="item-icon">👤</view>
+          <view class="list-item-content">
+            <view class="list-item-title">个人资料</view>
+            <view class="list-item-subtitle">编辑个人信息</view>
+          </view>
+          <view class="list-item-arrow"></view>
+        </view>
+        
+        <view class="list-item" bindtap="onViewNotifications">
+          <view class="item-icon">🔕</view>
+          <view class="list-item-content">
+            <view class="list-item-title">通知中心</view>
+            <view class="list-item-subtitle">查看所有通知消息</view>
+          </view>
+          <view class="badge" wx:if="{{unreadCount > 0}}">{{unreadCount}}</view>
+          <view class="list-item-arrow"></view>
+        </view>
+        
+        <view class="list-item" bindtap="onSettings">
+          <view class="item-icon">⚙️</view>
+          <view class="list-item-content">
+            <view class="list-item-title">设置</view>
+            <view class="list-item-subtitle">应用设置和偏好</view>
+          </view>
+          <view class="list-item-arrow"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 退出登录 -->
+  <view class="logout-section">
+    <button class="btn btn-outline btn-block" bindtap="onLogout">
+      退出登录
+    </button>
+  </view>
+</view> 

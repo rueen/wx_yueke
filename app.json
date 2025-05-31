@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/profile/profile",
+    "pages/login/login",
+    "pages/course-detail/course-detail",
+    "pages/book-course/book-course",
+    "pages/my-students/my-students",
+    "pages/my-coaches/my-coaches",
+    "pages/student-detail/student-detail",
+    "pages/coach-detail/coach-detail",
+    "pages/add-student/add-student",
+    "pages/schedule/schedule",
+    "pages/pending-requests/pending-requests",
+    "pages/notifications/notifications",
+    "pages/profile-edit/profile-edit",
+    "pages/settings/settings"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "约课",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#007AFF",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+} 

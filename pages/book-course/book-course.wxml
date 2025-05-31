@@ -1,0 +1,9 @@
+<view class="container">
+  <view class="page-title">发起约课</view>
+  
+  <view class="empty-state">
+    <view class="empty-state-icon">📅</view>
+    <view class="empty-state-text">约课功能</view>
+    <view class="empty-state-subtitle">正在开发中...</view>
+  </view>
+</view> 

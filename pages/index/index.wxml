@@ -1,0 +1,108 @@
+<view class="container">
+  <!-- 页面头部 -->
+  <view class="page-header">
+    <view class="greeting">
+      <text class="greeting-text">{{greeting}}</text>
+      <text class="user-name">{{userInfo.nickname}}</text>
+    </view>
+    <view class="header-actions">
+      <view class="quick-book-btn" bindtap="onQuickBook">
+        <text class="quick-book-text">约课</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 课程列表 -->
+  <view class="courses-section">
+    <view class="section-header">
+      <text class="section-title">近期课程</text>
+      <text class="section-subtitle">按开始时间排序</text>
+    </view>
+
+    <!-- 课程卡片列表 -->
+    <view class="courses-list" wx:if="{{courses.length > 0}}">
+      <view 
+        class="course-card" 
+        wx:for="{{courses}}" 
+        wx:key="id"
+        bindtap="onCourseDetail"
+        data-course="{{item}}"
+      >
+        <view class="course-header">
+          <view class="course-time">
+            <text class="time-date">{{item.dateText}}</text>
+            <text class="time-period">{{item.timeText}}</text>
+          </view>
+          <view class="course-status">
+            <view class="status {{item.statusClass}}">
+              <view class="status-dot"></view>
+              <text class="status-text">{{item.statusText}}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="course-content">
+          <view class="course-info">
+            <view class="user-info">
+              <image class="user-avatar" src="{{item.partnerInfo.avatar}}" mode="aspectFill"></image>
+              <view class="user-details">
+                <text class="user-name">{{item.partnerInfo.nickname}}</text>
+                <text class="user-role">{{item.roleText}}</text>
+              </view>
+            </view>
+          </view>
+
+          <view class="course-meta">
+            <view class="location" wx:if="{{item.location}}">
+              <text class="location-icon">📍</text>
+              <text class="location-text">{{item.location}}</text>
+            </view>
+            <view class="remark" wx:if="{{item.remark}}">
+              <text class="remark-text">{{item.remark}}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class="course-actions" wx:if="{{item.canCancel}}">
+          <button 
+            class="btn btn-outline btn-small" 
+            bindtap="onCancelCourse"
+            data-course="{{item}}"
+            catchtap="true"
+          >
+            取消课程
+          </button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:else>
+      <view class="empty-state-icon">📅</view>
+      <view class="empty-state-text">暂无课程</view>
+      <view class="empty-state-subtitle">点击右上角约课按钮开始约课</view>
+    </view>
+  </view>
+
+  <!-- 快速功能入口 -->
+  <view class="quick-actions">
+    <view class="quick-action-item" bindtap="onViewSchedule">
+      <view class="action-icon">📋</view>
+      <text class="action-text">课表</text>
+    </view>
+    <view class="quick-action-item" bindtap="onViewRelated">
+      <view class="action-icon">👥</view>
+      <text class="action-text">{{userType === 'coach' ? '我的学员' : '我的教练'}}</text>
+    </view>
+    <view class="quick-action-item" bindtap="onViewRequests">
+      <view class="action-icon">🔔</view>
+      <text class="action-text">待处理</text>
+      <view class="badge" wx:if="{{pendingCount > 0}}">{{pendingCount}}</view>
+    </view>
+  </view>
+</view>
+
+<!-- 加载状态 -->
+<view class="loading" wx:if="{{isLoading}}">
+  <text>加载中...</text>
+</view> 
