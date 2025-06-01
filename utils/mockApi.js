@@ -89,10 +89,14 @@ class MockApi {
    */
   createMockCourses() {
     const now = new Date()
+    const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000)
     const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000)
     const afterTomorrow = new Date(now.getTime() + 2 * 24 * 60 * 60 * 1000)
+    const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
+    const lastWeek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
     
     mockData.courses = [
+      // 已确认的课程
       {
         id: 'course_001',
         coachId: 'user_001',
@@ -114,6 +118,125 @@ class MockApi {
         status: 'confirmed',
         remark: '瑜伽基础课程',
         createdAt: now.toISOString()
+      },
+      // 已完成的历史课程
+      {
+        id: 'course_003',
+        coachId: 'user_001',
+        studentId: 'user_003',
+        startTime: yesterday.toISOString(),
+        endTime: new Date(yesterday.getTime() + 60 * 60 * 1000).toISOString(),
+        location: '健身房A区',
+        status: 'completed',
+        remark: '胸部训练',
+        createdAt: new Date(yesterday.getTime() - 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: 'course_004',
+        coachId: 'user_002',
+        studentId: 'user_004',
+        startTime: lastWeek.toISOString(),
+        endTime: new Date(lastWeek.getTime() + 90 * 60 * 1000).toISOString(),
+        location: '瑜伽室',
+        status: 'completed',
+        remark: '瑜伽体式矫正',
+        createdAt: new Date(lastWeek.getTime() - 24 * 60 * 60 * 1000).toISOString()
+      },
+      // 待确认的课程
+      {
+        id: 'course_005',
+        coachId: 'user_001',
+        studentId: 'user_004',
+        startTime: new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+        endTime: new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000 + 60 * 60 * 1000).toISOString(),
+        location: '健身房B区',
+        status: 'pending',
+        remark: '力量训练咨询',
+        createdAt: now.toISOString()
+      },
+      {
+        id: 'course_006',
+        coachId: 'user_002',
+        studentId: 'user_003',
+        startTime: new Date(now.getTime() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+        endTime: new Date(now.getTime() + 4 * 24 * 60 * 60 * 1000 + 60 * 60 * 1000).toISOString(),
+        location: '瑜伽室',
+        status: 'pending',
+        remark: '瑜伽初体验',
+        createdAt: new Date(now.getTime() - 60 * 60 * 1000).toISOString()
+      },
+      // 已取消的课程
+      {
+        id: 'course_007',
+        coachId: 'user_001',
+        studentId: 'user_003',
+        startTime: new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString(),
+        endTime: new Date(now.getTime() + 24 * 60 * 60 * 1000 + 60 * 60 * 1000).toISOString(),
+        location: '健身房A区',
+        status: 'cancelled',
+        remark: '学员临时有事',
+        createdAt: new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString(),
+        cancelReason: '学员临时有事无法参加',
+        cancelledAt: new Date(now.getTime() - 30 * 60 * 1000).toISOString()
+      },
+      // 下周的课程安排
+      {
+        id: 'course_008',
+        coachId: 'user_001',
+        studentId: 'user_003',
+        startTime: nextWeek.toISOString(),
+        endTime: new Date(nextWeek.getTime() + 60 * 60 * 1000).toISOString(),
+        location: '健身房A区',
+        status: 'confirmed',
+        remark: '腿部训练',
+        createdAt: new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString()
+      },
+      {
+        id: 'course_009',
+        coachId: 'user_002',
+        studentId: 'user_004',
+        startTime: new Date(nextWeek.getTime() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+        endTime: new Date(nextWeek.getTime() + 2 * 24 * 60 * 60 * 1000 + 90 * 60 * 1000).toISOString(),
+        location: '瑜伽室',
+        status: 'confirmed',
+        remark: '流瑜伽练习',
+        createdAt: new Date(now.getTime() - 12 * 60 * 60 * 1000).toISOString()
+      },
+      // 更多不同教练的课程
+      {
+        id: 'course_010',
+        coachId: 'user_001',
+        studentId: 'user_004',
+        startTime: new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+        endTime: new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000 + 90 * 60 * 1000).toISOString(),
+        location: '健身房C区',
+        status: 'confirmed',
+        remark: '康复训练指导',
+        createdAt: new Date(now.getTime() - 6 * 60 * 60 * 1000).toISOString()
+      },
+      // 今天的课程
+      {
+        id: 'course_011',
+        coachId: 'user_002',
+        studentId: 'user_003',
+        startTime: new Date(now.getTime() + 2 * 60 * 60 * 1000).toISOString(),
+        endTime: new Date(now.getTime() + 3 * 60 * 60 * 1000).toISOString(),
+        location: '瑜伽室',
+        status: 'confirmed',
+        remark: '冥想与放松',
+        createdAt: new Date(now.getTime() - 48 * 60 * 60 * 1000).toISOString()
+      },
+      // 过期未确认的课程
+      {
+        id: 'course_012',
+        coachId: 'user_001',
+        studentId: 'user_004',
+        startTime: new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString(),
+        endTime: new Date(now.getTime() - 60 * 60 * 1000).toISOString(),
+        location: '健身房A区',
+        status: 'expired',
+        remark: '未及时确认，已过期',
+        createdAt: new Date(now.getTime() - 72 * 60 * 60 * 1000).toISOString()
       }
     ]
   }

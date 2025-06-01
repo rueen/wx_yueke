@@ -1,7 +1,8 @@
 /* 首页样式 */
 .container {
   padding: 0;
-  background: #f5f5f5;
+  background: #f7f7f7;
+  min-height: 100vh;
 }
 
 /* 页面头部 */
@@ -179,18 +180,21 @@
   margin-bottom: 24rpx;
 }
 
+/* 用户信息区域 */
 .user-info {
+  background: linear-gradient(135deg, #007AFF, #5856D6);
+  color: #fff;
+  padding: 30rpx;
   display: flex;
   align-items: center;
-  margin-bottom: 16rpx;
 }
 
 .user-avatar {
-  width: 64rpx;
-  height: 64rpx;
-  border-radius: 50%;
-  margin-right: 24rpx;
-  background: #f0f0f0;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  margin-right: 30rpx;
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
 }
 
 .user-details {
@@ -198,17 +202,20 @@
 }
 
 .user-name {
-  display: block;
-  font-size: 32rpx;
-  font-weight: 500;
-  color: #1d1d1f;
-  margin-bottom: 4rpx;
+  font-size: 36rpx;
+  font-weight: 600;
+  margin-bottom: 8rpx;
 }
 
-.user-role {
-  display: block;
+.user-type {
+  font-size: 26rpx;
+  opacity: 0.8;
+  margin-bottom: 12rpx;
+}
+
+.user-greeting {
   font-size: 24rpx;
-  color: #86868b;
+  opacity: 0.7;
 }
 
 /* 课程元信息 */
@@ -253,87 +260,236 @@
   border-top: 1rpx solid #f0f0f0;
 }
 
-/* 快速操作 */
+/* 快捷操作 */
 .quick-actions {
-  background: #ffffff;
-  margin: 0 32rpx 32rpx;
-  border-radius: 24rpx;
-  padding: 32rpx;
-  display: flex;
-  justify-content: space-around;
-}
-
-.quick-action-item {
+  padding: 30rpx;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  position: relative;
-  padding: 16rpx;
-  border-radius: 16rpx;
-  transition: background-color 0.3s ease;
+  gap: 20rpx;
 }
 
-.quick-action-item:active {
-  background: #f8f8f8;
+.action-item {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2rpx 16rpx rgba(0, 0, 0, 0.08);
+  position: relative;
 }
 
 .action-icon {
   font-size: 48rpx;
-  margin-bottom: 12rpx;
-  height: 56rpx;
-  line-height: 56rpx;
+  margin-right: 24rpx;
 }
 
-.action-text {
+.action-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8rpx;
+  display: block;
+}
+
+.action-subtitle {
   font-size: 24rpx;
-  color: #1d1d1f;
-  font-weight: 500;
+  color: #666;
+  display: block;
 }
 
 .badge {
   position: absolute;
-  top: 8rpx;
-  right: 8rpx;
+  right: 30rpx;
+  top: 50%;
+  transform: translateY(-50%);
   background: #FF3B30;
-  color: #ffffff;
+  color: #fff;
   font-size: 20rpx;
-  padding: 4rpx 8rpx;
-  border-radius: 12rpx;
-  min-width: 24rpx;
+  padding: 8rpx 12rpx;
+  border-radius: 20rpx;
+  min-width: 40rpx;
   text-align: center;
-  line-height: 1;
+}
+
+/* 区块样式 */
+.section {
+  background: #fff;
+  margin: 20rpx 0;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.section-header {
+  padding: 30rpx 30rpx 20rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.section-more {
+  font-size: 26rpx;
+  color: #007AFF;
+}
+
+/* 课程列表 */
+.course-list {
+  padding: 0 30rpx 30rpx;
+}
+
+.course-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  background: #f8f8f8;
+  border-radius: 12rpx;
+}
+
+.course-item:last-child {
+  margin-bottom: 0;
+}
+
+.course-time {
+  margin-right: 24rpx;
+  min-width: 120rpx;
+}
+
+.course-date {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 4rpx;
+}
+
+.course-time-range {
+  display: block;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.course-info {
+  flex: 1;
+}
+
+.course-partner {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.course-location {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.course-status {
+  font-size: 24rpx;
+  padding: 8rpx 12rpx;
+  border-radius: 8rpx;
+  color: #fff;
+}
+
+.status-scheduled {
+  background: #007AFF;
+}
+
+.status-ongoing {
+  background: #34C759;
+}
+
+.status-completed {
+  background: #8E8E93;
+}
+
+.status-cancelled {
+  background: #FF3B30;
+}
+
+/* 用户网格 */
+.user-grid {
+  padding: 30rpx;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rpx;
+}
+
+.user-card {
+  background: #f8f8f8;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-card .user-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  margin-bottom: 12rpx;
+}
+
+.user-card .user-name {
+  font-size: 26rpx;
+  color: #333;
+  margin-bottom: 8rpx;
+  display: block;
+}
+
+.user-card .user-courses {
+  font-size: 22rpx;
+  color: #666;
+  display: block;
 }
 
 /* 空状态 */
 .empty-state {
+  padding: 60rpx 30rpx;
   text-align: center;
-  padding: 120rpx 32rpx;
-  color: #86868b;
 }
 
 .empty-state-icon {
-  font-size: 96rpx;
-  margin-bottom: 32rpx;
-  opacity: 0.3;
+  font-size: 80rpx;
+  margin-bottom: 20rpx;
 }
 
 .empty-state-text {
-  font-size: 32rpx;
-  margin-bottom: 16rpx;
-  color: #1d1d1f;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 30rpx;
 }
 
-.empty-state-subtitle {
-  font-size: 28rpx;
-  color: #86868b;
+.empty-state-action {
+  margin-top: 30rpx;
 }
 
-/* 加载状态 */
-.loading {
-  text-align: center;
-  padding: 48rpx;
-  color: #86868b;
+/* 按钮样式 */
+.btn {
+  padding: 20rpx 32rpx;
+  border-radius: 12rpx;
   font-size: 28rpx;
+  border: none;
+  background: transparent;
+}
+
+.btn-primary {
+  background: #007AFF;
+  color: #fff;
+}
+
+.btn-primary:active {
+  background: #0051D5;
 }
 
 /* 响应式设计 */

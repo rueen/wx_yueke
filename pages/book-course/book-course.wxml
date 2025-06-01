@@ -1,9 +1,163 @@
 <view class="container">
-  <view class="page-title">发起约课</view>
-  
-  <view class="empty-state">
-    <view class="empty-state-icon">📅</view>
-    <view class="empty-state-text">约课功能</view>
-    <view class="empty-state-subtitle">正在开发中...</view>
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 约课表单 -->
+  <view class="booking-form" wx:else>
+    <!-- 用户选择 -->
+    <view class="form-section" wx:if="{{!fromUserDetail}}">
+      <view class="section-title">选择{{targetType === 'coach' ? '教练' : '学员'}}</view>
+      <view class="user-list">
+        <view 
+          class="user-item {{selectedUserId === item.id ? 'selected' : ''}}"
+          wx:for="{{availableUsers}}"
+          wx:key="id"
+          bindtap="onSelectUser"
+          data-id="{{item.id}}"
+        >
+          <image class="user-avatar" src="{{item.avatar}}" mode="aspectFill"></image>
+          <view class="user-info">
+            <text class="user-name">{{item.nickname}}</text>
+            <text class="user-desc" wx:if="{{item.specialty}}">{{item.specialty.join(' · ')}}</text>
+            <text class="user-desc" wx:elif="{{item.coursesLeft}}">剩余{{item.coursesLeft}}课时</text>
+          </view>
+          <view class="select-icon" wx:if="{{selectedUserId === item.id}}">✓</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 已选用户显示 -->
+    <view class="form-section" wx:if="{{selectedUser}}">
+      <view class="section-title">约课对象</view>
+      <view class="selected-user">
+        <image class="user-avatar" src="{{selectedUser.avatar}}" mode="aspectFill"></image>
+        <view class="user-info">
+          <text class="user-name">{{selectedUser.nickname}}</text>
+          <text class="user-desc" wx:if="{{selectedUser.specialty}}">{{selectedUser.specialty.join(' · ')}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 时间选择 -->
+    <view class="form-section">
+      <view class="section-title">选择时间</view>
+      
+      <view class="time-picker-group">
+        <view class="picker-item">
+          <text class="picker-label">日期</text>
+          <picker 
+            mode="date" 
+            value="{{selectedDate}}" 
+            bindchange="onDateChange"
+            start="{{selectedDate}}"
+          >
+            <view class="picker-value">
+              {{selectedDate || '请选择日期'}}
+            </view>
+          </picker>
+        </view>
+
+        <view class="picker-item">
+          <text class="picker-label">时间</text>
+          <picker 
+            range="{{availableTimes}}" 
+            value="{{selectedTime}}" 
+            bindchange="onTimeChange"
+          >
+            <view class="picker-value">
+              {{selectedTime || '请选择时间'}}
+            </view>
+          </picker>
+        </view>
+
+        <view class="picker-item">
+          <text class="picker-label">时长</text>
+          <picker 
+            range="{{['30分钟', '60分钟', '90分钟', '120分钟']}}" 
+            range-key="text"
+            value="{{duration === 30 ? 0 : duration === 60 ? 1 : duration === 90 ? 2 : 3}}"
+            bindchange="onDurationChange"
+          >
+            <view class="picker-value">
+              {{duration}}分钟
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+
+    <!-- 课程信息 -->
+    <view class="form-section">
+      <view class="section-title">课程信息</view>
+      
+      <view class="input-group">
+        <text class="input-label">上课地点 *</text>
+        <input 
+          class="input" 
+          placeholder="请输入上课地点" 
+          value="{{location}}" 
+          bindinput="onLocationInput"
+        />
+      </view>
+
+      <view class="input-group">
+        <text class="input-label">备注说明</text>
+        <textarea 
+          class="textarea" 
+          placeholder="请输入备注信息，如特殊要求、注意事项等" 
+          value="{{remark}}" 
+          bindinput="onRemarkInput"
+          maxlength="200"
+        />
+      </view>
+    </view>
+
+    <!-- 约课预览 -->
+    <view class="form-section" wx:if="{{selectedUser && selectedDate && selectedTime}}">
+      <view class="section-title">约课预览</view>
+      <view class="booking-preview">
+        <view class="preview-item">
+          <text class="preview-label">对象：</text>
+          <text class="preview-value">{{selectedUser.nickname}}</text>
+        </view>
+        <view class="preview-item">
+          <text class="preview-label">时间：</text>
+          <text class="preview-value">{{selectedDate}} {{selectedTime}}</text>
+        </view>
+        <view class="preview-item">
+          <text class="preview-label">时长：</text>
+          <text class="preview-value">{{duration}}分钟</text>
+        </view>
+        <view class="preview-item" wx:if="{{location}}">
+          <text class="preview-label">地点：</text>
+          <text class="preview-value">{{location}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 提交按钮 -->
+    <view class="submit-section">
+      <button 
+        class="btn btn-primary btn-block {{isSubmitting ? 'btn-disabled' : ''}}" 
+        bindtap="onSubmit"
+        loading="{{isSubmitting}}"
+      >
+        {{isSubmitting ? '发送中...' : '发起约课请求'}}
+      </button>
+    </view>
+
+    <!-- 温馨提示 -->
+    <view class="tips-section">
+      <view class="tip-item">
+        <text class="tip-icon">💡</text>
+        <text class="tip-text">约课请求发送后，对方确认即可成功约课</text>
+      </view>
+      <view class="tip-item">
+        <text class="tip-icon">⏰</text>
+        <text class="tip-text">建议提前1天以上发起约课请求</text>
+      </view>
+    </view>
   </view>
 </view> 

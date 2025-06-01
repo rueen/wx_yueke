@@ -1,7 +1,154 @@
 <view class="container">
-  <view class="empty-state">
-    <view class="empty-state-icon">📅</view>
-    <view class="empty-state-text">课程详情</view>
-    <view class="empty-state-subtitle">正在开发中...</view>
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 课程详情 -->
+  <view class="course-detail" wx:elif="{{course}}">
+    
+    <!-- 课程状态卡片 -->
+    <view class="status-card status-{{course.statusClass}}">
+      <view class="status-header">
+        <view class="status-icon">
+          <text wx:if="{{course.status === 'scheduled'}}">📅</text>
+          <text wx:elif="{{course.status === 'ongoing'}}">⏰</text>
+          <text wx:elif="{{course.status === 'completed'}}">✅</text>
+          <text wx:else>❌</text>
+        </view>
+        <view class="status-text">{{course.statusText}}</view>
+      </view>
+      
+      <view class="status-tip" wx:if="{{course.isUpcoming}}">
+        <text>即将开始的课程</text>
+      </view>
+      <view class="status-tip" wx:elif="{{course.isOngoing}}">
+        <text>课程正在进行中</text>
+      </view>
+      <view class="status-tip" wx:elif="{{course.isPast}}">
+        <text>课程已结束</text>
+      </view>
+    </view>
+
+    <!-- 时间信息 -->
+    <view class="info-section">
+      <view class="section-title">时间安排</view>
+      <view class="time-info">
+        <view class="time-row">
+          <view class="time-label">日期</view>
+          <view class="time-value">{{course.dateText}} ({{course.dayText}})</view>
+        </view>
+        <view class="time-row">
+          <view class="time-label">时间</view>
+          <view class="time-value">{{course.timeText}}</view>
+        </view>
+        <view class="time-row">
+          <view class="time-label">时长</view>
+          <view class="time-value">{{course.durationText}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 对方信息 -->
+    <view class="info-section">
+      <view class="section-title">{{userType === 'coach' ? '学员' : '教练'}}信息</view>
+      <view class="user-info" bindtap="onContactOther">
+        <image class="user-avatar" src="{{course.otherUser.avatar}}" mode="aspectFill"></image>
+        <view class="user-details">
+          <text class="user-name">{{course.otherUser.nickname}}</text>
+          <text class="user-phone" wx:if="{{course.otherUser.phone}}">{{course.otherUser.phone}}</text>
+          <view class="user-tags" wx:if="{{course.otherUser.specialty}}">
+            <text class="tag" wx:for="{{course.otherUser.specialty}}" wx:key="*this">{{item}}</text>
+          </view>
+        </view>
+        <view class="contact-icon">></view>
+      </view>
+    </view>
+
+    <!-- 地点信息 -->
+    <view class="info-section" wx:if="{{course.location}}">
+      <view class="section-title">上课地点</view>
+      <view class="location-info" bindtap="onViewLocation">
+        <view class="location-icon">📍</view>
+        <text class="location-text">{{course.location}}</text>
+        <view class="location-action">查看地图</view>
+      </view>
+    </view>
+
+    <!-- 备注信息 -->
+    <view class="info-section" wx:if="{{course.remark}}">
+      <view class="section-title">备注说明</view>
+      <view class="remark-content">
+        <text>{{course.remark}}</text>
+      </view>
+    </view>
+
+    <!-- 课程记录 -->
+    <view class="info-section" wx:if="{{course.status === 'completed'}}">
+      <view class="section-title">课程记录</view>
+      <view class="course-record">
+        <view class="record-item">
+          <text class="record-label">完成时间</text>
+          <text class="record-value">{{course.dateText}} {{course.timeText}}</text>
+        </view>
+        <view class="record-item" wx:if="{{course.actualDuration}}">
+          <text class="record-label">实际时长</text>
+          <text class="record-value">{{course.actualDuration}}分钟</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section" wx:if="{{course && course.status !== 'cancelled'}}">
+    <!-- 即将开始的课程操作 -->
+    <view wx:if="{{course.isUpcoming}}">
+      <button 
+        class="btn btn-outline btn-block" 
+        wx:if="{{course.canReschedule}}"
+        bindtap="onRescheduleCourse"
+      >
+        申请改期
+      </button>
+      
+      <button 
+        class="btn btn-danger btn-block {{operating ? 'btn-disabled' : ''}}" 
+        wx:if="{{course.canCancel}}"
+        bindtap="onCancelCourse"
+        loading="{{operating}}"
+      >
+        {{operating ? '取消中...' : '取消课程'}}
+      </button>
+      
+      <view class="action-tips" wx:if="{{!course.canCancel && !course.canReschedule}}">
+        <text>⚠️ 课程开始前2小时内不可取消或改期</text>
+      </view>
+    </view>
+
+    <!-- 进行中的课程操作 -->
+    <view wx:elif="{{course.isOngoing}}">
+      <button class="btn btn-primary btn-block">
+        课程进行中
+      </button>
+    </view>
+
+    <!-- 已完成的课程操作 -->
+    <view wx:elif="{{course.isPast && course.status !== 'completed'}}">
+      <button class="btn btn-outline btn-block">
+        标记为已完成
+      </button>
+    </view>
+
+    <!-- 通用操作 -->
+    <button class="btn btn-primary btn-block" bindtap="onContactOther">
+      联系{{userType === 'coach' ? '学员' : '教练'}}
+    </button>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <view class="empty-state-icon">❌</view>
+    <view class="empty-state-text">课程不存在</view>
+    <button class="btn btn-primary" bindtap="wx.navigateBack">返回</button>
   </view>
 </view> 
